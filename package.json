@@ -1,0 +1,35 @@
+{
+  "name": "@frontle/bottomsheet",
+  "version": "1.0.0",
+  "type": "module",
+  "module": "./",
+  "description": "BottomSheet UI",
+  "keywords": [
+    "bottom sheet",
+    "bottomsheet",
+    "ui",
+    "browser",
+    "android",
+    "ios",
+    "cordova",
+    "electron",
+    "frontle"
+  ],
+  "author": "Yun HyeongJun <y37653@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Frontle-Foundation/BottomSheet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Frontle-Foundation/BottomSheet/issues"
+  },
+  "homepage": "https://github.com/Frontle-Foundation/BottomSheet#readme",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "util/"
+  ],
+  "dependencies": {}
+}
