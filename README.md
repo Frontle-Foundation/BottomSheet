@@ -29,7 +29,7 @@ bottomSheet.open();
 **Frontle**
 
 ```shell
-frontle install @frontle/bottomsheet --notBuild
+frontle install @frontle/bottomsheet --noBuild
 ```
 
 **Download files**
