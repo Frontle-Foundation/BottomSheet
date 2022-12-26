@@ -4,6 +4,12 @@
 
   <p align="center">The easiest multi-platform SPA framework.</p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/~frontle"><img src="https://img.shields.io/npm/v/@frontle/bottomsheet.svg" alt="NPM Version" /></a>
+  <a href="https://www.npmjs.com/~frontle"><img src="https://img.shields.io/npm/l/@frontle/bottomsheet.svg" alt="Package License" /></a>
+  <a href="https://www.npmjs.com/~frontle"><img src="https://img.shields.io/npm/dm/@frontle/bottomsheet.svg" alt="NPM Downloads" /></a>
+</p>
+
 ## Description
 
 Bottom sheet UI available in Vanilla JS
