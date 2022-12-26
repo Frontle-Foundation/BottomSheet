@@ -1,6 +1,8 @@
-![Logo](https://user-images.githubusercontent.com/49587288/209550001-97ccc567-f9d9-4f47-affe-7abccb3967e6.png)
+<p align="center">
+  <a href="https://frontle.org/" target="blank"><img src="https://user-images.githubusercontent.com/49587288/209550001-97ccc567-f9d9-4f47-affe-7abccb3967e6.png" width="120" alt="Frontle Logo" /></a>
+</p>
 
-> The easiest multi-platform SPA framework
+  <p align="center">The easiest multi-platform SPA framework.</p>
 
 ## Description
 
@@ -32,10 +34,10 @@ bottomSheet.open();
 **Frontle**
 
 ```shell
-frontle install @frontle/bottomsheet --noBuild
+$ frontle install @frontle/bottomsheet --noBuild
 ```
 
-**Download VanillaJS Library**
+**Download Vanilla JS Library**
 
 https://github.com/Frontle-Foundation/BottomSheet
 
