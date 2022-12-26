@@ -113,9 +113,7 @@ export class BottomSheet {
 
     // set html
     const html = /* html */ `
-      <div class="frontleBottomSheetBackground ${
-        this.backgroundClass
-      }" style="z-index: ${zIndex + 1}"></div>
+      <div class="frontleBottomSheetBackground ${this.backgroundClass}" style="z-index: ${zIndex + 1}"></div>
 
       <div class="frontleBottomSheetContents ${this.contentsClass}" style="
         max-height: ${this.height}vh;
@@ -148,15 +146,11 @@ export class BottomSheet {
     // start sheet animation
     setTimeout(() => {
       // background opacity
-      let sheetBackground = sheetElement.querySelector(
-        ".frontleBottomSheetBackground"
-      );
+      let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
       if (sheetBackground !== null) sheetBackground.style.opacity = "0.4";
 
       // contents pos move up
-      let sheetContents = sheetElement.querySelector(
-        ".frontleBottomSheetContents"
-      );
+      let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
       if (sheetContents !== null) {
         sheetContents.style.bottom = `${this.startY}vh`;
       }
@@ -170,66 +164,41 @@ export class BottomSheet {
         this.status[sheetId].mouseDownEvent = () => {
           this.eventMouseDown(sheetId);
         };
-        sheetBar.addEventListener(
-          "mousedown",
-          this.status[sheetId].mouseDownEvent,
-          false
-        );
+        sheetBar.addEventListener("mousedown", this.status[sheetId].mouseDownEvent, false);
+
         this.status[sheetId].touchStartEvent = () => {
           this.eventMouseDown(sheetId);
         };
-        sheetBar.addEventListener(
-          "touchstart",
-          this.status[sheetId].touchStartEvent,
-          false
-        );
+        sheetBar.addEventListener("touchstart", this.status[sheetId].touchStartEvent, false);
       }
 
-      let sheetContents = sheetElement.querySelector(
-        ".frontleBottomSheetContents"
-      );
+      let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
 
       // set mouse up evnet
       this.status[sheetId].mouseUpEvent = (e) => {
         this.eventMouseUp(e, sheetId, sheetContents);
       };
-      document.addEventListener(
-        "mouseup",
-        this.status[sheetId].mouseUpEvent,
-        false
-      );
+      document.addEventListener("mouseup", this.status[sheetId].mouseUpEvent, false);
+
       this.status[sheetId].touchEndEvent = (e) => {
         this.eventMouseUp(e.changedTouches[0], sheetId, sheetContents);
       };
-      document.addEventListener(
-        "touchend",
-        this.status[sheetId].touchEndEvent,
-        false
-      );
+      document.addEventListener("touchend", this.status[sheetId].touchEndEvent, false);
 
       // set mouse move evnet
       this.status[sheetId].mouseMoveEvent = (e) => {
         this.eventMouseMove(e, sheetId, sheetContents);
       };
-      document.addEventListener(
-        "mousemove",
-        this.status[sheetId].mouseMoveEvent,
-        false
-      );
+      document.addEventListener("mousemove", this.status[sheetId].mouseMoveEvent, false);
+
       this.status[sheetId].touchMoveEvent = (e) => {
         this.eventMouseMove(e.changedTouches[0], sheetId, sheetContents);
       };
-      document.addEventListener(
-        "touchmove",
-        this.status[sheetId].touchMoveEvent,
-        false
-      );
+      document.addEventListener("touchmove", this.status[sheetId].touchMoveEvent, false);
 
       // set close event
       if (this.backgroundClickExit === true) {
-        let sheetBackground = sheetElement.querySelector(
-          ".frontleBottomSheetBackground"
-        );
+        let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
         if (sheetBackground !== null) {
           sheetBackground.addEventListener(
             "click",
@@ -260,15 +229,11 @@ export class BottomSheet {
     const sheetElement = document.getElementById(sheetID);
 
     // background opacity
-    let sheetBackground = sheetElement.querySelector(
-      ".frontleBottomSheetBackground"
-    );
+    let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
     if (sheetBackground !== null) sheetBackground.style.opacity = "0";
 
     // contents pos move down
-    let sheetContents = sheetElement.querySelector(
-      ".frontleBottomSheetContents"
-    );
+    let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
     if (sheetContents !== null) {
       sheetContents.style.transition = "bottom ease 0.4s 0s";
       sheetContents.style.bottom = `-${this.height}vh`;
@@ -276,32 +241,14 @@ export class BottomSheet {
 
     // end sheet animation
     setTimeout(async () => {
-      document.removeEventListener(
-        "mousedown",
-        this.status[sheetID].mouseDownEvent
-      );
-      document.removeEventListener(
-        "touchstart",
-        this.status[sheetID].touchStartEvent
-      );
+      document.removeEventListener("mousedown", this.status[sheetID].mouseDownEvent);
+      document.removeEventListener("touchstart", this.status[sheetID].touchStartEvent);
 
-      document.removeEventListener(
-        "mousemove",
-        this.status[sheetID].mouseMoveEvent
-      );
-      document.removeEventListener(
-        "touchmove",
-        this.status[sheetID].touchMoveEvent
-      );
+      document.removeEventListener("mousemove", this.status[sheetID].mouseMoveEvent);
+      document.removeEventListener("touchmove", this.status[sheetID].touchMoveEvent);
 
-      document.removeEventListener(
-        "mouseup",
-        this.status[sheetID].mouseUpEvent
-      );
-      document.removeEventListener(
-        "touchend",
-        this.status[sheetID].touchEndEvent
-      );
+      document.removeEventListener("mouseup", this.status[sheetID].mouseUpEvent);
+      document.removeEventListener("touchend", this.status[sheetID].touchEndEvent);
 
       delete this.status[sheetID];
 
@@ -334,9 +281,16 @@ export class BottomSheet {
 
       // Move to full height
       if (Number(moveY) >= Number(this.startY)) {
+        let bottomVH;
+        if (Number(this.startY) / 2 <= Number(moveY)) {
+          bottomVH = 0;
+        } else {
+          bottomVH = this.startY;
+        }
+
         // start animation
         element.style.transition = "bottom ease 0.4s 0s";
-        element.style.bottom = `0vh`;
+        element.style.bottom = `${bottomVH}vh`;
 
         // end animation
         setTimeout(() => {
@@ -370,8 +324,7 @@ export class BottomSheet {
 
   static makeID(length) {
     let result = "";
-    let characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     let charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));

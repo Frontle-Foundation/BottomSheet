@@ -1,7 +1,10 @@
-# @frontle/bottomsheet
+![Logo](https://user-images.githubusercontent.com/49587288/209550001-97ccc567-f9d9-4f47-affe-7abccb3967e6.png)
 
-> BottomSheet UI
->
+> The easiest multi-platform SPA framework
+
+## Description
+
+Bottom sheet UI available in Vanilla JS
 
 ![화면-기록-2022-07-12-오후-5.15.45](https://user-images.githubusercontent.com/49587288/197342550-9b052bac-24f0-4e15-ae98-aee8b046e378.gif)
 
@@ -32,7 +35,7 @@ bottomSheet.open();
 frontle install @frontle/bottomsheet --noBuild
 ```
 
-**Download files**
+**Download VanillaJS Library**
 
 https://github.com/Frontle-Foundation/BottomSheet
 
