@@ -1,8 +1,6 @@
 {
   "name": "@frontle/bottomsheet",
-  "version": "1.0.2",
-  "type": "module",
-  "module": "./",
+  "version": "1.0.3",
   "description": "Bottom sheet UI available in Vanilla JS",
   "keywords": [
     "bottom sheet",
@@ -28,10 +26,24 @@
   },
   "homepage": "https://github.com/Frontle-Foundation/BottomSheet#readme",
   "files": [
+    "dist",
     "LICENSE",
     "README.md",
-    "index.js",
-    "util/"
+    "index.js"
   ],
-  "dependencies": {}
+  "devDependencies": {
+    "@babel/cli": "7.18.10",
+    "@babel/core": "7.18.13",
+    "@babel/plugin-proposal-class-properties": "7.18.6",
+    "@babel/polyfill": "7.12.1",
+    "@babel/preset-env": "7.18.10",
+    "babel-loader": "8.2.5",
+    "core-js": "3.25.0",
+    "webpack": "5.74.0",
+    "webpack-cli": "4.10.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "publish": "npm run webpack && npm publish"
+  }
 }

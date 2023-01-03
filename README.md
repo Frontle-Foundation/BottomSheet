@@ -14,7 +14,7 @@
 
 Bottom sheet UI available in Vanilla JS
 
-![화면-기록-2022-07-12-오후-5.15.45](https://user-images.githubusercontent.com/49587288/197342550-9b052bac-24f0-4e15-ae98-aee8b046e378.gif)
+![bottomSheetGif](https://frontle.org/uploads/bottomSheetReadme/bottomSheet.gif)
 
 ## Usage
 
@@ -43,9 +43,14 @@ bottomSheet.open();
 $ frontle install @frontle/bottomsheet --noBuild
 ```
 
-**Download Vanilla JS Library**
+**Vanilla JS **
 
-https://github.com/Frontle-Foundation/BottomSheet
+```html
+<script src="https://cdn.jsdelivr.net/npm/@frontle/bottomsheet@1.0.3/dist/frontle_bottomsheet.min.js"></script>
+<!-- sourcemap 
+https://cdn.jsdelivr.net/npm/@frontle/bottomsheet@1.0.3/dist/frontle_bottomsheet.min.js.map
+-->
+```
 
 ## API
 

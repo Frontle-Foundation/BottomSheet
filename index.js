@@ -1,21 +1,18 @@
-import { zIndexManager } from "./util/zIndexManager.js";
+import {findHighestZIndex} from './util/zIndexManager.js';
 
 export class BottomSheet {
-  static #zIndexManager = new zIndexManager();
-
-  // status
   status = {};
 
   // required
-  parents = "";
-  html = "";
+  parents = '';
+  html = '';
 
   // options
   height = 50;
   startY = 0;
-  sheetClass = "";
-  contentsClass = "";
-  backgroundClass = "";
+  sheetClass = '';
+  contentsClass = '';
+  backgroundClass = '';
   backgroundClickExit = true;
 
   beforeOpen = () => {};
@@ -24,8 +21,14 @@ export class BottomSheet {
   afterEnd = () => {};
 
   constructor(parents, html) {
-    if (parents === null) throw "parents must be entered";
-    if (html === null) throw "html must be entered";
+    if (parents === null) {
+      throw {
+        message: 'parents must be entered',
+      };
+    }
+    if (html === null) {
+      throw {message: 'html must be entered'};
+    }
 
     this.parents = parents;
     this.html = html;
@@ -36,10 +39,10 @@ export class BottomSheet {
     const id = String(BottomSheet.makeID(32));
 
     // get z-index
-    const zIndex = BottomSheet.getZIndex(this.parents);
+    const zIndex = findHighestZIndex(this.parents);
 
     // set sheet id
-    const sheetId = "sheet_" + id;
+    const sheetId = 'sheet_' + id;
 
     // set status
     this.status[sheetId] = {};
@@ -47,9 +50,9 @@ export class BottomSheet {
     this.status[sheetId].mouseup = false;
 
     // add default sheet css
-    if (document.getElementById("frontleBottomSheetCSS") === null) {
-      let sheetCSSElement = document.createElement("style");
-      sheetCSSElement.setAttribute("id", "frontleBottomSheetCSS");
+    if (document.getElementById('frontleBottomSheetCSS') === null) {
+      const sheetCSSElement = document.createElement('style');
+      sheetCSSElement.setAttribute('id', 'frontleBottomSheetCSS');
       sheetCSSElement.innerHTML = `
         .frontleBottomSheet{
             position: fixed;
@@ -66,6 +69,7 @@ export class BottomSheet {
             left: 0;
             background: #000000;
             opacity: 0;
+            transition: opacity ease 0.4s 0s;
         }
         .frontleBottomSheetContents{
             position: absolute;
@@ -82,24 +86,23 @@ export class BottomSheet {
         .frontleBottomSheetBar{
             position: relative;
             display: block;
-            padding-top: 9px;
-            padding-bottom: 9px;
+            padding-top: 0.5rem;
+            padding-bottom: 1rem;
         }
         .frontleBottomSheetBarLine{
             position: relative;
             display: block;
             margin: 0 auto;
-            margin-top: 2px;
-            margin-bottom: 2px;
-            width: 40px;
-            height: 2px;
-            background: #bbbbbb;
+            width: 2.5rem;
+            height: 0.3125rem;
+            border-radius: 10px;
+            background: #c4c4c4;
         }
         .frontleBottomSheetHtml{
             position: relative;
             display: block;
             width: 100%;
-            height: calc(100% - 44px);
+            height: calc(100% - 2.75rem);
             overflow: scroll;
             -ms-overflow-style: none; /* IE and Edge */
             scrollbar-width: none; /* Firefox */
@@ -122,19 +125,16 @@ export class BottomSheet {
         bottom: -${this.height}vh;
         transition: bottom ease 0.4s 0s;
       ">
-
         <div class="frontleBottomSheetBar">
-          <div class="frontleBottomSheetBarLine"></div>
           <div class="frontleBottomSheetBarLine"></div>
         </div>
         <div class="frontleBottomSheetHtml">${this.html}</div>
-
       </div>
     `;
 
     // add sheet
-    let sheetElement = document.createElement("div");
-    sheetElement.setAttribute("id", sheetId);
+    const sheetElement = document.createElement('div');
+    sheetElement.setAttribute('id', sheetId);
     sheetElement.className = `frontleBottomSheet ${this.sheetClass}`;
     sheetElement.innerHTML = html;
     sheetElement.style.zIndex = String(zIndex);
@@ -146,11 +146,13 @@ export class BottomSheet {
     // start sheet animation
     setTimeout(() => {
       // background opacity
-      let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
-      if (sheetBackground !== null) sheetBackground.style.opacity = "0.4";
+      const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
+      if (sheetBackground !== null) {
+        sheetBackground.style.opacity = '0.4';
+      }
 
       // contents pos move up
-      let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
+      const sheetContents = sheetElement.querySelector('.frontleBottomSheetContents');
       if (sheetContents !== null) {
         sheetContents.style.bottom = `${this.startY}vh`;
       }
@@ -159,60 +161,63 @@ export class BottomSheet {
     // end sheet animation
     setTimeout(async () => {
       // set mouse down event
-      let sheetBar = sheetElement.querySelector(".frontleBottomSheetBar");
+      const sheetBar = sheetElement.querySelector('.frontleBottomSheetBar');
       if (sheetBar !== null) {
-        this.status[sheetId].mouseDownEvent = () => {
+        this.status[sheetId].mouseDownEvent = e => {
+          e.preventDefault();
           this.eventMouseDown(sheetId);
         };
-        sheetBar.addEventListener("mousedown", this.status[sheetId].mouseDownEvent, false);
+        sheetBar.addEventListener('mousedown', this.status[sheetId].mouseDownEvent, false);
 
         this.status[sheetId].touchStartEvent = () => {
           this.eventMouseDown(sheetId);
         };
-        sheetBar.addEventListener("touchstart", this.status[sheetId].touchStartEvent, false);
+        sheetBar.addEventListener('touchstart', this.status[sheetId].touchStartEvent, false);
       }
 
-      let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
+      const sheetContents = sheetElement.querySelector('.frontleBottomSheetContents');
 
-      // set mouse up evnet
-      this.status[sheetId].mouseUpEvent = (e) => {
+      // set mouse up event
+      this.status[sheetId].mouseUpEvent = e => {
+        e.preventDefault();
         this.eventMouseUp(e, sheetId, sheetContents);
       };
-      document.addEventListener("mouseup", this.status[sheetId].mouseUpEvent, false);
+      document.addEventListener('mouseup', this.status[sheetId].mouseUpEvent, false);
 
-      this.status[sheetId].touchEndEvent = (e) => {
+      this.status[sheetId].touchEndEvent = e => {
         this.eventMouseUp(e.changedTouches[0], sheetId, sheetContents);
       };
-      document.addEventListener("touchend", this.status[sheetId].touchEndEvent, false);
+      document.addEventListener('touchend', this.status[sheetId].touchEndEvent, false);
 
-      // set mouse move evnet
-      this.status[sheetId].mouseMoveEvent = (e) => {
+      // set mouse move event
+      this.status[sheetId].mouseMoveEvent = e => {
+        e.preventDefault();
         this.eventMouseMove(e, sheetId, sheetContents);
       };
-      document.addEventListener("mousemove", this.status[sheetId].mouseMoveEvent, false);
+      document.addEventListener('mousemove', this.status[sheetId].mouseMoveEvent, false);
 
-      this.status[sheetId].touchMoveEvent = (e) => {
+      this.status[sheetId].touchMoveEvent = e => {
         this.eventMouseMove(e.changedTouches[0], sheetId, sheetContents);
       };
-      document.addEventListener("touchmove", this.status[sheetId].touchMoveEvent, false);
+      document.addEventListener('touchmove', this.status[sheetId].touchMoveEvent, false);
 
       // set close event
       if (this.backgroundClickExit === true) {
-        let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
+        const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
         if (sheetBackground !== null) {
           sheetBackground.addEventListener(
-            "click",
+            'click',
             () => {
               this.close(sheetId);
             },
-            false
+            false,
           );
         }
       }
 
       // delete animation
       if (sheetContents !== null) {
-        sheetContents.style.removeProperty("transition");
+        sheetContents.style.removeProperty('transition');
       }
 
       // run lifecycle
@@ -229,26 +234,26 @@ export class BottomSheet {
     const sheetElement = document.getElementById(sheetID);
 
     // background opacity
-    let sheetBackground = sheetElement.querySelector(".frontleBottomSheetBackground");
-    if (sheetBackground !== null) sheetBackground.style.opacity = "0";
+    const sheetBackground = sheetElement.querySelector('.frontleBottomSheetBackground');
+    if (sheetBackground !== null) sheetBackground.style.opacity = '0';
 
     // contents pos move down
-    let sheetContents = sheetElement.querySelector(".frontleBottomSheetContents");
+    const sheetContents = sheetElement.querySelector('.frontleBottomSheetContents');
     if (sheetContents !== null) {
-      sheetContents.style.transition = "bottom ease 0.4s 0s";
+      sheetContents.style.transition = 'bottom ease 0.4s 0s';
       sheetContents.style.bottom = `-${this.height}vh`;
     }
 
     // end sheet animation
     setTimeout(async () => {
-      document.removeEventListener("mousedown", this.status[sheetID].mouseDownEvent);
-      document.removeEventListener("touchstart", this.status[sheetID].touchStartEvent);
+      document.removeEventListener('mousedown', this.status[sheetID].mouseDownEvent);
+      document.removeEventListener('touchstart', this.status[sheetID].touchStartEvent);
 
-      document.removeEventListener("mousemove", this.status[sheetID].mouseMoveEvent);
-      document.removeEventListener("touchmove", this.status[sheetID].touchMoveEvent);
+      document.removeEventListener('mousemove', this.status[sheetID].mouseMoveEvent);
+      document.removeEventListener('touchmove', this.status[sheetID].touchMoveEvent);
 
-      document.removeEventListener("mouseup", this.status[sheetID].mouseUpEvent);
-      document.removeEventListener("touchend", this.status[sheetID].touchEndEvent);
+      document.removeEventListener('mouseup', this.status[sheetID].mouseUpEvent);
+      document.removeEventListener('touchend', this.status[sheetID].touchEndEvent);
 
       delete this.status[sheetID];
 
@@ -289,12 +294,12 @@ export class BottomSheet {
         }
 
         // start animation
-        element.style.transition = "bottom ease 0.4s 0s";
+        element.style.transition = 'bottom ease 0.4s 0s';
         element.style.bottom = `${bottomVH}vh`;
 
         // end animation
         setTimeout(() => {
-          element.style.removeProperty("transition");
+          element.style.removeProperty('transition');
 
           this.status[sheetID].mouseup = false;
         }, 400);
@@ -307,10 +312,10 @@ export class BottomSheet {
   }
 
   eventMouseMove(e, sheetID, element) {
-    // Until the mouse up
     if (this.status[sheetID].mousedown) {
       let mouseY = window.innerHeight - e.clientY;
-      if (mouseY < 0 || mouseY > window.innerHeight) return;
+      if (mouseY < 0) mouseY = 0;
+      if (mouseY > window.innerHeight) mouseY = window.innerHeight;
 
       let moveY = (mouseY / window.innerHeight) * 100 - Number(this.height);
       if (moveY >= 0) moveY = 0;
@@ -318,13 +323,9 @@ export class BottomSheet {
     }
   }
 
-  static getZIndex(parents) {
-    return this.#zIndexManager.getHighestZIndex(parents);
-  }
-
   static makeID(length) {
-    let result = "";
-    let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = '';
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
