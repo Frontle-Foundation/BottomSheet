@@ -43,7 +43,7 @@ bottomSheet.open();
 $ frontle install @frontle/bottomsheet --noBuild
 ```
 
-**Vanilla JS **
+**Vanilla JS**
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/@frontle/bottomsheet@1.0.3/dist/frontle_bottomsheet.min.js"></script>
