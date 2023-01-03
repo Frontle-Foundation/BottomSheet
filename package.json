@@ -43,7 +43,6 @@
     "webpack-cli": "4.10.0"
   },
   "scripts": {
-    "build": "webpack",
-    "publish": "npm run webpack && npm publish"
+    "build": "webpack"
   }
 }
