@@ -157,4 +157,4 @@ The original author of @frontle/bottomsheet is [MushStory](https://github.com/Mu
 
 ## License
 
- [MIT](LICENSE)
+ [MIT](https://github.com/Frontle-Foundation/BottomSheet/blob/main/LICENSE)
